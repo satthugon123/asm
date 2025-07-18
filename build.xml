@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="PizzaStore" default="build" basedir=".">
+    
+    <property name="src.dir" value="src"/>
+    <property name="web.dir" value="WebContent"/>
+    <property name="build.dir" value="${web.dir}/WEB-INF/classes"/>
+    <property name="lib.dir" value="${web.dir}/WEB-INF/lib"/>
+    
+    <path id="classpath">
+        <fileset dir="${lib.dir}" includes="**/*.jar"/>
+        <pathelement location="${build.dir}"/>
+    </path>
+    
+    <target name="clean" description="Clean build directory">
+        <delete dir="${build.dir}"/>
+        <mkdir dir="${build.dir}"/>
+    </target>
+    
+    <target name="compile" depends="clean" description="Compile Java sources">
+        <mkdir dir="${build.dir}"/>
+        <javac srcdir="${src.dir}" 
+               destdir="${build.dir}" 
+               classpathref="classpath"
+               includeantruntime="false">
+        </javac>
+    </target>
+    
+    <target name="build" depends="compile" description="Build the web application">
+        <echo message="Build completed successfully!"/>
+    </target>
+    
+    <target name="war" depends="build" description="Create WAR file">
+        <war destfile="PizzaStore.war" webxml="${web.dir}/WEB-INF/web.xml">
+            <fileset dir="${web.dir}"/>
+        </war>
+    </target>
+    
+</project>
