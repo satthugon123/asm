@@ -19,7 +19,15 @@ public class DBContext {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             return DriverManager.getConnection(URL, USERNAME, PASSWORD);
         } catch (ClassNotFoundException e) {
+            System.err.println("SQL Server JDBC Driver not found. Please add mssql-jdbc jar to WEB-INF/lib");
             throw new SQLException("SQL Server JDBC Driver not found", e);
+        } catch (SQLException e) {
+            System.err.println("Cannot connect to database. Please check:");
+            System.err.println("1. SQL Server is running");
+            System.err.println("2. Database 'PizzaStore' exists");
+            System.err.println("3. Connection credentials are correct");
+            System.err.println("Error: " + e.getMessage());
+            throw e;
         }
     }
     
